@@ -1,19 +1,12 @@
 #ifndef MATRIXDEF
 #define MATRIXDEF
 
-
-
-//  **********************
-//  *  Class of matrices  *
-//  **********************
-
-
-//  Class written in such a way that code similar to Matlab
-//  code may be written
-
 #include<cmath>
-#include "Exception.hpp"//  This class throws errors using the class "error"
-#include "Vector.hpp"
+
+// Make this more self contained.
+// That is, a vector is treated as a
+// collumn matrix
+
 
 class Matrix
 {

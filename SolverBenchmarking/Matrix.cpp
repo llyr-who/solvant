@@ -1,5 +1,4 @@
 #include<iostream>
-#include "Vector.hpp"
 #include"Matrix.hpp"
 
 Matrix::Matrix(int rows, int cols)
@@ -37,10 +36,6 @@ Matrix::~Matrix()
 
 Matrix operator*( const Matrix &A,const Matrix &B)
 {
-    if(A.mCols != B.mRows)
-    {
-        throw Exception("index mismatch","the number of collums in the first matrix needs to equal the number of rows in the second");
-    }
     Matrix result(A.mRows,B.mCols);
     for(int i = 0; i<A.mRows;i++)
     {
@@ -104,10 +99,6 @@ Matrix operator+(const Matrix& A, const Matrix& B)
 Vector operator/(const Vector &b, const Matrix &A)
 {
     //Call Guassian Elimination (return LU)
-    if(A.mCols != A.mRows)
-    {
-        throw Exception("index mismatch","non-square matrix");
-    }
     //This will solve the matrix using guasian ellimination with partial pivoting
     int m = A.mCols;
     Matrix U=A,L = eye(m),P=eye(m);
