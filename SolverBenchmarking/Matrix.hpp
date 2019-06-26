@@ -3,11 +3,6 @@
 
 #include<cmath>
 
-// Make this more self contained.
-// That is, a vector is treated as a
-// collumn matrix
-
-
 class Matrix
 {
 private:
@@ -19,31 +14,28 @@ public:
     Matrix(const Matrix& m1);
     Matrix(int rows,int cols);
     ~Matrix();
+    Matrix Mult(const Matrix& A, const Matrix& B); // A*B
+    Matrix Mult(const double &a, const Matrix &A); // a*A
+    Matrix Add(const Matrix& A, const Matrix& B); // A+B
     
-    friend Matrix operator*(const Matrix &A, const Matrix &B);
-    friend Vector operator*(const Matrix &A,const Vector &b);
-    friend Matrix operator*(const double &a, const Matrix &A);
-    friend Matrix operator+(const Matrix& A, const Matrix& B);
-    friend Vector operator/(const Vector &b, const Matrix &A);
-    friend std::ostream& operator<<(std::ostream& os, const Matrix& M);
+    //  solve for x ; Ax=b ------------------------------------------
+    Matrix SolveLUPartialPivoting(const Matrix& b);
+    //  ...
+    //  -------------------------------------------------------------
+    
+    //  solve for inverse -------------------------------------------
+    //  All this function does is obtain solutions when the rhs are
+    //  cannonical basis vectors and compounds them into the inverse.
+    Matrix obtainInverse();
+    //  -------------------------------------------------------------
+    
+    
     Matrix& operator=(const Matrix& M);
     
     double& operator()(int i,int j) const;
     void interchangeRows(int i,int j,int I,int J);
     Matrix transpose();
     void setMatrix(Matrix A);
-    Vector size();
-    friend Matrix eye(int n);
     void print();
-    
 };
-
-//overloads the output operator
-Matrix operator*(const Matrix &A, const Matrix &B);
-Vector operator*(const Matrix &A,const Vector &b);
-Matrix operator*(const double &a, const Matrix &A);
-Matrix operator+(const Matrix&A);
-Vector operator/(const Vector &b, const Matrix &A);
-Matrix eye(int n);
-Matrix ones(int n);
 #endif
