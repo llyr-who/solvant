@@ -5,18 +5,17 @@
 #include "base/matrix.hpp"
 namespace solvant {
 namespace base {
-template <typename T, std::size_t Rows, std::size_t Bands>
-class BandedMatrix : public Matrix {
+template <typename T, std::size_t R, std::size_t B>
+class BandedMatrix : public Matrix<T, R, R> {
 private:
-    std::array<T, Bands * Rows> m_data;
-
+    std::array<T, B * R> m_data;
 public:
-    BandedMatrix() : Matrix(){};
-    ~BandedMatrix() {};
+    BandedMatrix() : Matrix<T,R,R> (){};
+    ~BandedMatrix(){};
 
     virtual void circshift(std::size_t sft_amt, std::size_t dim) {}
 };
-}  // namespace Base
-}  // namespace SolvAnt
+}  // namespace base
+}  // namespace solvant
 
 #endif

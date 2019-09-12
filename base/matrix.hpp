@@ -9,12 +9,14 @@
 
 namespace solvant {
 namespace base {
+template <typename T, std::size_t R, std::size_t C>
 class Matrix {
 private:
+    std::size_t m_rows = R;
+    std::size_t m_cols = C;
 public:
     Matrix() {};
     virtual ~Matrix() {} ;
-
     virtual void circshift(std::size_t sft_amt, std::size_t dim) = 0;
 };
 }  // namespace Base
