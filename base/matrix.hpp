@@ -7,15 +7,16 @@
 // that are to be used on non-embedded devices
 // i.e your Macbook
 
-namespace SolvAnt {
-namespace Base {
-template<typename T, std::size_t Rows, std::size_t Columns>
+namespace solvant {
+namespace base {
 class Matrix {
 private:
 public:
-    Matrix();
-    virtual ~Matrix();
+    Matrix() {};
+    virtual ~Matrix() {} ;
+
+    virtual void circshift(std::size_t sft_amt, std::size_t dim) = 0;
 };
-}  // namespace Matrix
+}  // namespace Base
 }  // namespace SolvAnt
 #endif

@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 2.8.9)
+include_directories(.) 
 project (solvant)
-include_directories(include)
-add_executable(solvant src/main/main.cpp)
+add_executable(solvant solvant/main.cpp)
