@@ -7,7 +7,7 @@ namespace solvant {
 namespace base {
 template <typename T, std::size_t R, std::size_t C>
 class DMatrix : public Matrix<T, R, C> {
-private:
+protected:
     std::vector<std::vector<T>> m_data;
 
 public:
@@ -15,7 +15,9 @@ public:
     ~DMatrix(){};
     // sft : how many shifts
     // dim : the dimension
-    virtual void circshift(std::size_t sft, bool dim = true);
+    virtual void circshift(std::size_t sft, bool dim = true) {
+        
+    };
 };
 }  // namespace base
 }  // namespace solvant

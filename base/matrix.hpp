@@ -11,12 +11,10 @@ namespace solvant {
 namespace base {
 template <typename T, std::size_t R, std::size_t C>
 class Matrix {
-private:
-    std::size_t m_rows = R;
-    std::size_t m_cols = C;
 public:
     Matrix() {};
     virtual ~Matrix() {} ;
+    //virtual solve() = 0;
 };
 }  // namespace Base
 }  // namespace SolvAnt
