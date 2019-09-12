@@ -17,7 +17,6 @@ private:
 public:
     Matrix() {};
     virtual ~Matrix() {} ;
-    virtual void circshift(std::size_t sft_amt, std::size_t dim) = 0;
 };
 }  // namespace Base
 }  // namespace SolvAnt
