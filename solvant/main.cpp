@@ -2,11 +2,10 @@
 #include "base/bmatrix.hpp"
 
 int main(int argc, const char * argv[]) {
-    // Diagonal matrix
-    std::cout << "creating tri-diag matrix" << std::endl;
-    solvant::base::BMatrix<double, 5,1> t({1,2,3});  
+    // Mass Matrix :)
+    solvant::base::BMatrix<double,20,3> mass({-1,2,-1});  
 
-    t.print(); 
+    mass.print(); 
 
     return 0;
 }

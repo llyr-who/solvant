@@ -20,9 +20,13 @@ public:
         }
         std::cout << std::endl;
     }
+    // safe-slow set/get
     virtual T at(std::array<int, 2> ij) = 0;
+    virtual void set(std::array<int, 2> ij, const T val) = 0;
 protected:
+    // unsafe-fast sat/get
     virtual T at(const std::size_t i, std::size_t j) = 0;
+    virtual void set(const std::size_t i, std::size_t j, const T val) = 0;
 };
 }  // namespace Base
 }  // namespace SolvAnt
