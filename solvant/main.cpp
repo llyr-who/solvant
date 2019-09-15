@@ -1,5 +1,6 @@
 #include <iostream>
 #include "base/bmatrix.hpp"
+#include "solver/tsolver.hpp"
 
 int main(int argc, const char * argv[]) {
     // Mass Matrix :)
@@ -7,5 +8,7 @@ int main(int argc, const char * argv[]) {
 
     mass.print(); 
 
+    solvant::solver::TSolver<double, 20, 20> slv(mass);
+    slv.solve();
     return 0;
 }
