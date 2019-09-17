@@ -10,7 +10,7 @@ template <typename T, std::size_t R, std::size_t B>
 class BMatrix : public Matrix<T, R, R> {
 protected:
     // First R entries store the lowest sub-band
-    // and entires start at B and finish at R - B
+    // and entires start at B and finish at R
     // ...
     // last R entries store the highest sub-band
     // etc
