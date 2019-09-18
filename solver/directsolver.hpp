@@ -5,7 +5,7 @@ namespace solvant {
 namespace solver {
 template <typename T, std::size_t N>
 class DirectSolver : public Solver<T, N, N> {
-    virtual void solve(std::array<T, N>& rhs) {
+    virtual void solve(const std::array<T, N>& rhs, std::array<T, N>& x) {
         std::cout << "solving D" << std::endl;
     }
 };

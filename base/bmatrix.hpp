@@ -21,7 +21,7 @@ public:
     BMatrix(std::array<T, B>&& diagonal_constants);
     virtual ~BMatrix(){};
 
-    const T* getData() const {return m_data.data(); }
+    const std::array<T, R*B>& getData() const {return m_data; }
     
     std::size_t bands() const { return B; }
 
