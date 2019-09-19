@@ -22,8 +22,6 @@ public:
         std::cout << std::endl;
     }
 
-    std::array<std::size_t, 2> size() { return {R, C}; }
-    
     // safety
     virtual T at(const std::size_t i, const std::size_t j) = 0;
     virtual void set(const std::size_t i, const std::size_t j, const T val) = 0;

@@ -9,22 +9,24 @@
 // data then fire off solve commands which solve
 // the system with this
 //
-// REMEMBER to implement destructor here
 #include "solver/directsolver.hpp"
+#include "base/bmatrix.hpp"
 namespace solvant {
 namespace solver {
 template <typename T, std::size_t N>
 class DirectTriSolver : public DirectSolver<T, N> {
+    bool m_init;
     const std::array<T, 3 * N>& m_M;  // just store a reference?
     std::array<T, N - 1> m_c;
     std::array<T, N> m_d;
 
 public:
-    DirectTriSolver(const base::BMatrix<T, N, 3>& M) : m_M{M.getData()} {}
-
-    ~DirectTriSolver() {}
-
-    virtual void solve(const std::array<T, N>& rhs, std::array<T,N>& x) {
+    virtual void init(const base::BMatrix<T,N,3>& M) {
+        m_M = M.data();
+        m_init = true;
+    }
+    // look into cache locality
+    virtual void solve(const std::array<T, N>& rhs, std::array<T, N>& x) {
         m_c[0] = m_M[2 * N] / m_M[N];
         m_d[0] = rhs[0] / m_M[N];
         for (std::size_t i = 1; i < N - 1; i++) {
