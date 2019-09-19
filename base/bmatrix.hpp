@@ -21,7 +21,15 @@ public:
     BMatrix(std::array<T, B>&& diagonal_constants);
     virtual ~BMatrix(){};
 
-    const std::array<T, R*B>& getData() const {return m_data; }
+    // move assignment operator
+    BMatrix& operator=(BMatrix&& other) noexcept {
+        if(this!=&other) {
+            m_data = std::move(other.m_data);
+        }
+        return *this;
+    }
+
+    const T* data() const {return m_data.data(); }
     
     std::size_t bands() const { return B; }
 
@@ -43,6 +51,10 @@ public:
         }
     }
 
+    // using band-major form
+    T operator[](const std::size_t i) const { return m_data[i];}
+
+    // standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const{
         return m_data[((j - i) + (B >> 1))*R + j];
     }
