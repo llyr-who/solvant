@@ -6,8 +6,7 @@
 #include <algorithm>
 #include <array>
 namespace solvant {
-namespace solver {
-namespace finsolv {
+namespace finance {
 template <std::size_t N, std::size_t M>
 class EuroCallOptionSolver {
 public:
@@ -37,16 +36,15 @@ private:
     // pImpl -< can use differnt direct trisolver
     std::array<std::array<float, N - 2>, M> m_sols;
 };
-}  // namespace finsolv
-}  // namespace solver
+}  // namespace finance
 }  // namespace solvant
 
 template <std::size_t N, std::size_t M>
-solvant::solver::finsolv::EuroCallOptionSolver<N, M>::EuroCallOptionSolver()
+solvant::finance::EuroCallOptionSolver<N, M>::EuroCallOptionSolver()
     : m_init(false) {}
 
 template <std::size_t N, std::size_t M>
-void solvant::solver::finsolv::EuroCallOptionSolver<N, M>::init(
+void solvant::finance::EuroCallOptionSolver<N, M>::init(
     float E, float T, float sig, float r,
     solvant::solver::DirectTriSolver<float, N - 2>* solver) {
     m_E = E;
@@ -77,10 +75,9 @@ void solvant::solver::finsolv::EuroCallOptionSolver<N, M>::init(
 }
 
 template <std::size_t N, std::size_t M>
-void solvant::solver::finsolv::EuroCallOptionSolver<N, M>::solve() {
+void solvant::finance::EuroCallOptionSolver<N, M>::solve() {
     if (!m_init) return;
     std::array<float, N - 2> rhs;
-    std::cout << std::endl;
     for (int i = 0; i < M - 1; i++) {
         std::transform(rhs.begin(), rhs.end(), rhs.begin(),
                        [this, &i, j = 0](float x) mutable {
@@ -92,23 +89,13 @@ void solvant::solver::finsolv::EuroCallOptionSolver<N, M>::solve() {
 
         rhs[0] += 0.5 * m_alpha;
         rhs[N - 2] += 0.5 * m_alpha;
-        for(auto& e : rhs){
-            std::cout << e << std::endl;
-        }
         p_solver->solve(rhs, m_sols[i + 1]);
     }
 }
 
 template <std::size_t N, std::size_t M>
-void solvant::solver::finsolv::EuroCallOptionSolver<N, M>::writeSolutionToFile(
+void solvant::finance::EuroCallOptionSolver<N, M>::writeSolutionToFile(
     std::string filename) {
-    for(auto& sol : m_sols) {
-        std::cout << std::endl;
-        for(auto& e : sol) {
-            std::cout << e << " ";
-        }
-    }
-
 }
 
 #endif
