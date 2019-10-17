@@ -1,18 +1,18 @@
 #ifndef THOMASSOLV
 #define THOMASSOLV
-#include "solver/directtrisolver.hpp"
+#include "solver/solver.hpp"
 #include "base/bmatrix.hpp"
 namespace solvant {
 namespace solver {
 template <typename T, std::size_t N>
-class Thomas : public DirectTriSolver<T, N> {
+class Thomas : public Solver<T, N> {
 private:
     using DirectTriSolver<T, N>::m_init;
     using DirectTriSolver<T, N>::m_M;
     std::array<T, N - 1> m_c;
     std::array<T, N> m_d;
 public:
-    Thomas() : DirectTriSolver<T,N>(){}
+    Thomas() : Solver<T,N>(){}
     // look into cache locality
     virtual void solve(const std::array<T, N>& rhs, std::array<T, N>& x) {
         if(!m_init) return;
