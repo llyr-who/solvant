@@ -5,7 +5,7 @@
 namespace solvant {
 namespace solver {
 template <typename T, std::size_t N>
-class Thomas : public Solver<T, N> {
+class Thomas : public Solver<T, N, N> {
 private:
     using DirectTriSolver<T, N>::m_init;
     using DirectTriSolver<T, N>::m_M;
