@@ -2,12 +2,10 @@
 #define BANDMATDEF
 // **********************************************************************
 #include <array>
-#include "base/matrix.hpp"
-
 namespace solvant {
 namespace base {
 template <typename T, std::size_t R, std::size_t B>
-class BMatrix : public Matrix<T, R, R> {
+class banded_matrix {
 protected:
     // First R entries store the lowest sub-band
     // and entires start at B and finish at R
@@ -15,14 +13,12 @@ protected:
     // last R entries store the highest sub-band
     // etc
     std::array<T, R * B> m_data;
-
 public:
-    BMatrix();
-    BMatrix(std::array<T, B>&& diagonal_constants);
-    virtual ~BMatrix(){};
+    banded_matrix(std::array<T, B>&& diagonal_constants);
+    virtual ~banded_matrix(){};
 
     // move assignment operator
-    BMatrix& operator=(BMatrix&& other) noexcept {
+    banded_matrix& operator=(banded_matrix&& other) noexcept {
         if(this!=&other) {
             m_data = std::move(other.m_data);
         }
@@ -65,10 +61,7 @@ public:
 };  // namespace base
 
 template <typename T, std::size_t R, std::size_t B>
-BMatrix<T, R, B>::BMatrix() {}
-
-template <typename T, std::size_t R, std::size_t B>
-BMatrix<T, R, B>::BMatrix(std::array<T, B>&& diagonal_constants) {
+banded_matrix<T, R, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
     for (std::size_t i = 0; i < R; i++) {
         for (std::size_t j = 0; j < B; j++) {
             m_data[j * R + i] = diagonal_constants[j];
