@@ -7,13 +7,7 @@
 namespace solvant {
 namespace base {
 /**
- * A brief history of JavaDoc-style (C-style) comments.
- *
- * This is the typical JavaDoc-style C-style comment. It starts with two
- * asterisks.
- *
- * @param theory Even if there is only one possible unified theory. it is just a
- *               set of rules and equations.
+ * Matrix class
  */
 template <typename T, std::size_t R, std::size_t C>
 class matrix {
@@ -22,6 +16,12 @@ private:
 
 public:
     matrix(){};
+    matrix(std::array<T,R*C> a) {
+        m_data = std::move(a);
+    }
+    matrix operator=(std::array<T,R*C>a) {
+        m_data = std::move(a);
+    }
     virtual ~matrix(){};
 
     std::size_t rows() const { return R; }
@@ -46,14 +46,31 @@ public:
         return m_data[i * C + j];
     }
     
+    //! obtain raw row data
     T* operator[](const std::size_t row) { return &m_data[row * C]; }
+    //! obtain raw row data
+    const T* operator[](const std::size_t row) const {
+        return &m_data[row * C];
+    }
 };
 
-template<typename T, std::size_t R, std::size_t K, std::size_t C>
-inline void matrix_prod(const matrix<T, R, K>& a,
-                        const matrix<T, K, C>& b,
+/** Calculates the product between two matrices.
+ *
+ */
+template <typename T, std::size_t R, std::size_t K, std::size_t C>
+inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
                         matrix<T, R, C>& c) {
-    // implement matrix multiplication
+    for (std::size_t i = 0; i < R; i++) {
+        const auto ai = a[i];  // obtain row i of a
+        auto ci = c[i];        // obtain row i of c
+        for (std::size_t j = 0; j < C; j++) {
+            T r = 0;
+            for (size_t k = 0; k < K; k++) {
+                r += ai[k] * b[k][j];
+            }
+            ci[j] = r;
+        }
+    }
 }
 
 }  // namespace base

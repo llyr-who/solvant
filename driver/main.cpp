@@ -1,13 +1,13 @@
 #include <iostream>
-#include "base/matrix.hpp"
-#include "utils/timer.hpp"
+#include "solvant/base/matrix.hpp"
+#include "solvant/utils/timer.hpp"
 int main(int argc, const char* argv[]) {
     solvant::utils::timer t;
-	solvant::base::matrix<double, 800,800> A;
-	solvant::base::matrix<double, 800,800> B;
-    solvant::base::matrix<double, 800,800> C;
-    for(int i = 0; i < 800; i++) {
-        for(int j = 0; j < 800; j++) {
+	solvant::base::matrix<double, 500,500> A;
+	solvant::base::matrix<double, 500,500> B;
+    solvant::base::matrix<double, 500,500> C;
+    for(int i = 0; i < 500; i++) {
+        for(int j = 0; j < 500; j++) {
             A(i,j) = i;
             B(i,j) = j;
         }
