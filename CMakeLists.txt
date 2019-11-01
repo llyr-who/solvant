@@ -15,5 +15,6 @@ fetch_googletest(
     )
 
 add_subdirectory(tests)
+add_subdirectory(docs)
 enable_testing()
 
