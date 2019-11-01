@@ -4,8 +4,14 @@
 #include <cmath>
 #include <iostream>
 #include <memory>
+#include <type_traits>
+#include <utility>
 namespace solvant {
 namespace base {
+
+template <typename T, typename... Ts>
+using all_same_type = std::conjunction<std::is_same<T, Ts>...>;
+
 /**
  * Matrix class
  */
@@ -15,18 +21,23 @@ private:
     std::array<T, R * C> m_data;
 
 public:
-    matrix(){};
-    matrix(std::array<T,R*C> a) {
-        m_data = std::move(a);
+    constexpr matrix(){};
+    
+    //! matrix a = {1,2,3,...} 
+    template <typename... Ts>
+    constexpr matrix(Ts&&... elements) noexcept {
+        static_assert(all_same_type<T,Ts...>::value, "Types do not match");
+        static_assert(sizeof...(Ts) == R * C,
+                      "Size of array does not match");
+        m_data = std::array<T, R * C>{std::forward<Ts>(elements)...};
     }
-    matrix operator=(std::array<T,R*C>a) {
-        m_data = std::move(a);
-    }
+
     virtual ~matrix(){};
 
     std::size_t rows() const { return R; }
     std::size_t cols() const { return C; }
 
+    // move outside class, make inline
     void print() {
         for (std::size_t i = 0; i < R; i++) {
             std::cout << '\n';
@@ -45,7 +56,7 @@ public:
     virtual T& operator()(const std::size_t i, const std::size_t j) {
         return m_data[i * C + j];
     }
-    
+
     //! obtain raw row data
     T* operator[](const std::size_t row) { return &m_data[row * C]; }
     //! obtain raw row data
@@ -72,6 +83,7 @@ inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
         }
     }
 }
+
 
 }  // namespace base
 }  // namespace solvant
