@@ -14,7 +14,8 @@ fetch_googletest(
     ${PROJECT_BINARY_DIR}/googletest
     )
 
-add_subdirectory(tests)
-add_subdirectory(docs)
 enable_testing()
+add_subdirectory(tests)
+
+add_subdirectory(docs)
 

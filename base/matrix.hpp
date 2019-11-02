@@ -22,17 +22,16 @@ private:
 
 public:
     constexpr matrix(){};
-    
-    //! matrix a = {1,2,3,...} 
+
+    //! matrix a = {1,2,3,...}
     template <typename... Ts>
     constexpr matrix(Ts&&... elements) noexcept {
-        static_assert(all_same_type<T,Ts...>::value, "Types do not match");
-        static_assert(sizeof...(Ts) == R * C,
-                      "Size of array does not match");
+        static_assert(all_same_type<T, Ts...>::value, "Types do not match");
+        static_assert(sizeof...(Ts) == R * C, "Size of array does not match");
         m_data = std::array<T, R * C>{std::forward<Ts>(elements)...};
     }
 
-    virtual ~matrix(){};
+    ~matrix(){};
 
     std::size_t rows() const { return R; }
     std::size_t cols() const { return C; }
@@ -49,11 +48,11 @@ public:
         std::cout << std::endl;
     }
 
-    virtual T operator()(const std::size_t i, const std::size_t j) const {
+    T operator()(const std::size_t i, const std::size_t j) const {
         return m_data[i * C + j];
     }
 
-    virtual T& operator()(const std::size_t i, const std::size_t j) {
+    T& operator()(const std::size_t i, const std::size_t j) {
         return m_data[i * C + j];
     }
 
@@ -63,10 +62,13 @@ public:
     const T* operator[](const std::size_t row) const {
         return &m_data[row * C];
     }
+
+    const bool operator==(const matrix<T, R, C>& m) {
+        return m_data == m.m_data;
+    }
 };
 
 /** Calculates the product between two matrices.
- *
  */
 template <typename T, std::size_t R, std::size_t K, std::size_t C>
 inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
@@ -83,7 +85,6 @@ inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
         }
     }
 }
-
 
 }  // namespace base
 }  // namespace solvant

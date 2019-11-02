@@ -17,5 +17,5 @@ TEST(matrix, matrix_multiplication) {
 
     solvant::base::matrix_prod(a,a,c);
 
-    ASSERT_TRUE(0 == 0);
+    ASSERT_TRUE(d==c);
 }

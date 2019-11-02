@@ -21,6 +21,7 @@ doxygen_add_docs(docs
   base
   solver
   utils
+  tests
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
