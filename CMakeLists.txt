@@ -6,6 +6,10 @@ project(solvant)
 # when we move away from using .hpp files
 # only we can generate libraries instead
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..) 
+
+
+set(CMAKE_CXX_FLAGS "-Wall -mavx -mfma -Ofast")
+
 add_executable(solvant driver/main.cpp)
 
 include(cmake/googletest.cmake)
