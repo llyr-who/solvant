@@ -1,11 +1,11 @@
 #ifndef MATRIXDEF
 #define MATRIXDEF
+#include <array>
 #include <cmath>
 #include <iostream>
 #include <memory>
 #include <type_traits>
 #include <utility>
-#include <vector>
 namespace solvant {
 namespace base {
 
@@ -18,17 +18,17 @@ using all_same_type = std::conjunction<std::is_same<T, Ts>...>;
 template <typename T, std::size_t R, std::size_t C>
 class matrix {
 private:
-    std::vector<T> m_data;
+    std::array<T, R * C> m_data;
 
 public:
-    constexpr matrix() { m_data.resize(R * C); };
+    constexpr matrix(){};
 
     //! matrix a = {1,2,3,...}
     template <typename... Ts>
     constexpr matrix(Ts&&... elements) noexcept {
         static_assert(all_same_type<T, Ts...>::value, "Types do not match");
-        static_assert(sizeof...(Ts) == R * C, "Size of vector does not match");
-        m_data = std::vector<T>{std::forward<Ts>(elements)...};
+        static_assert(sizeof...(Ts) == R * C, "Size of array does not match");
+        m_data = std::array<T, R * C>{std::forward<Ts>(elements)...};
     }
 
     ~matrix(){};
@@ -56,8 +56,8 @@ public:
     }
 };
 
-template<typename T, std::size_t R, std::size_t C>
-inline void print(const matrix<T, R,C> &a) {
+template <typename T, std::size_t R, std::size_t C>
+inline void print(const matrix<T, R, C>& a) {
     for (std::size_t i = 0; i < R; i++) {
         std::cout << '\n';
         for (std::size_t j = 0; j < C; j++) {
@@ -72,7 +72,7 @@ inline void print(const matrix<T, R,C> &a) {
  */
 template <typename T, std::size_t R, std::size_t K, std::size_t C>
 inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
-                          matrix<T, R, C>& c) {
+                        matrix<T, R, C>& c) {
     for (std::size_t i = 0; i < R; i++) {
         const auto ai = a[i];  // obtain row i of a
         auto ci = c[i];        // obtain row i of c
