@@ -18,7 +18,8 @@ using all_same_type = std::conjunction<std::is_same<T, Ts>...>;
 template <typename T, std::size_t R, std::size_t C>
 class matrix {
 private:
-    std::array<T, R * C> m_data;
+    // Initialises all elements to zero
+    std::array<T, R * C> m_data = {};
 
 public:
     constexpr matrix(){};
