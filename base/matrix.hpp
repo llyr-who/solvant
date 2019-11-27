@@ -9,9 +9,6 @@
 namespace solvant {
 namespace base {
 
-template <typename T, typename... Ts>
-using all_same_type = std::conjunction<std::is_same<T, Ts>...>;
-
 /**
  * Matrix class
  */
@@ -19,16 +16,18 @@ template <typename T, std::size_t R, std::size_t C>
 class matrix {
 private:
     // Initialises all elements to zero
-    std::array<T, R * C> m_data = {};
+    std::array<T, R* C> m_data = {};
 
 public:
     constexpr matrix(){};
 
     //! matrix a = {1,2,3,...}
-    template <typename... Ts>
+    template <typename... Ts,
+              typename std::enable_if<
+                  std::conjunction<std::is_same<T, Ts>...>::value &&
+                      (sizeof...(Ts) == R * C),
+                  int>::type = 0>
     constexpr matrix(Ts&&... elements) noexcept {
-        static_assert(all_same_type<T, Ts...>::value, "Types do not match");
-        static_assert(sizeof...(Ts) == R * C, "Size of array does not match");
         m_data = std::array<T, R * C>{std::forward<Ts>(elements)...};
     }
 
