@@ -1,0 +1,16 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: cmake
+      run: cmake -H. -Bbuild
+    - name: make 
+      run: make -C build
+    - name: test
+      run: cd build && ctest
