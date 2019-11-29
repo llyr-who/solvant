@@ -1,5 +1,5 @@
 #include <array>
-#include <unordered_map>
+#include <map>
 namespace solvant {
 namespace sparse {
 //! This sparse structure is great for incremental creation
@@ -11,14 +11,14 @@ class DOK_matrix {
 
 public:
     DOK_matrix() {}
-    void add_entry(std::size_t r, std::size_t c, T& v) {
+    void add_entry(std::size_t r, std::size_t c, T v) {
         auto ind = std::make_pair(r, c);
         m_data[ind] = v;
     }
 
 private:
     // specified hash does not meet the requirements
-    std::unordered_map<index_pair, T> m_data;
+    std::map<index_pair, T> m_data;
 };
 }  // namespace base
 }  // namespace solvant
