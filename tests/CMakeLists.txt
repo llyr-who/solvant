@@ -8,11 +8,11 @@ target_link_libraries(DOK_test
                       gtest_main
 )
 
-add_executable(tridiag_test tridiag_test.cpp)
-target_link_libraries(tridiag_test
+add_executable(banded_test banded_test.cpp)
+target_link_libraries(banded_test
                       gtest_main
 )
 
 add_test(NAME matrix_test COMMAND matrix_test)
 add_test(NAME DOK_test COMMAND DOK_test)
-add_test(NAME tridiag_test COMMAND tridiag_test)
+add_test(NAME banded_test COMMAND banded_test)
