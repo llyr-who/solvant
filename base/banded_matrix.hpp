@@ -56,10 +56,10 @@ public:
         }
     }
 
-    // using band-major form
+    //! using "row"-major (see above) form
     T operator[](const std::size_t i) const { return m_data[i]; }
 
-    // standard (i,j) access
+    //! standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const {
         return m_data[i * B + (B >> 1) + (i - j)];
     }
@@ -67,6 +67,9 @@ public:
     T& operator()(const std::size_t i, const std::size_t j) {
         return m_data[i * B + (B >> 1) + (i - j)];
     }
+
+    //! obtain raw row data (??)
+    T* operator[](const std::size_t row) {return &m_data[row * B]; }
 };  // namespace base
 
 template <typename T, std::size_t N, std::size_t B>
@@ -82,7 +85,10 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
-                 banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {}
+                 banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
+    
+
+}
 
 }  // namespace base
 }  // namespace solvant
