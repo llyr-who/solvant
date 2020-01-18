@@ -69,7 +69,7 @@ public:
     }
 
     //! obtain raw row data
-    T* operator[](const std::size_t row) {return &m_data[row * B]; }
+    T* operator[](const std::size_t row) { return &m_data[row * B]; }
 };  // namespace base
 
 template <typename T, std::size_t N, std::size_t B>
@@ -86,11 +86,14 @@ template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
                  banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
-    std::size_t num_entries_B = N*B2 - 1;
-    for(std::size_t i = 1; i < num_entries_B; ++i) {
-        
+    for(std::size_t i = 0; i < N; ++i) {
+        const auto ai = A[i];  // ith row of A
+        for(std::size_t j = 0; j < N; ++j) {
+            // we need to obtain bounds on this
+            for(std::size_t k = 0; k < N; ++k) {
+            }
+        }
     }
-
 }
 
 }  // namespace base
