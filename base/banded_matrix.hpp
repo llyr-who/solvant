@@ -80,15 +80,11 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
         }
     }
 }
-#include <iostream>
 //! this makes use of the fact that the product of two banded matrices
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
                  banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
-    // for(std::size_t i = 0; i < N*B2; ++i) {
-    // std::cout << B(i) << std::endl;
-    //}
 }
 }  // namespace base
 }  // namespace solvant
