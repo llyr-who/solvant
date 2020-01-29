@@ -94,9 +94,10 @@ void matrix_prod(const banded_matrix<T, N, B1>& A,
                  banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
     for (std::size_t i = 0; i < N; i++) {
         for (std::size_t k = 0; k < N; k++) {
+            const auto aik = A(i,k);
+            // CHANGE THE BOUNDS!!!!!!!!!!
             for (std::size_t j = 0; j < N; j++) {
-                if (out_of_bounds<2 * ((B1 >> 1) + (B2 >> 1)) + 1>(i, j)) break;
-                C(i, j) += A(i, k) * B(k, j);
+                C(i, j) += aik * B(k, j);
             }
         }
     }
