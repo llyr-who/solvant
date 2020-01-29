@@ -17,6 +17,12 @@
 #include <array>
 namespace solvant {
 namespace base {
+
+template <std::size_t B>
+constexpr bool out_of_bounds(const std::size_t& i, const std::size_t& j) {
+    return i < j ? j - i < (B >> 1) : i - j < (B >> 1);
+}
+
 template <typename T, std::size_t N, std::size_t B>
 class banded_matrix {
 private:
@@ -42,7 +48,7 @@ public:
         if (i >= N || j >= N || i < 0 || j < 0) {
             throw std::out_of_range("index out of bounds");
         }
-        if (std::abs(long(i - j)) > (B >> 1)) {
+        if (out_of_bounds<B>(i, j)) {
             return 0;
         }
         return (*this)(i, j);
@@ -51,7 +57,7 @@ public:
         if (i >= N || j >= N || i < 0 || j < 0) {
             throw std::out_of_range("index out of bounds");
         }
-        if (std::abs(long(i - j)) <= (B >> 1)) {
+        if (out_of_bounds<B>(i, j)) {
             (*this)(i, j) = val;
         }
     }
@@ -61,7 +67,7 @@ public:
 
     //! standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const {
-        return m_data[i * B + (B >> 1) + (i - j)];
+        return out_of_bounds<B>(i, j) ? m_data[i * B + (B >> 1) + (i - j)] : 0;
     }
 
     T& operator()(const std::size_t i, const std::size_t j) {
@@ -80,11 +86,20 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
         }
     }
 }
-//! this makes use of the fact that the product of two banded matrices
+
+//! needs to be optimised
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
                  banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
+    for (std::size_t i = 0; i < N; i++) {
+        for (std::size_t k = 0; k < N; k++) {
+            for (std::size_t j = 0; j < N; j++) {
+                if (out_of_bounds<2 * ((B1 >> 1) + (B2 >> 1)) + 1>(i, j)) break;
+                C(i, j) += A(i, k) * B(k, j);
+            }
+        }
+    }
 }
 }  // namespace base
 }  // namespace solvant

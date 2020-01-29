@@ -58,9 +58,9 @@ public:
 
 template <typename T, std::size_t R, std::size_t C>
 inline void print(const matrix<T, R, C>& a) {
-    for (std::size_t i = 0; i < R; i++) {
+    for (std::size_t i = 0; i < R; ++i) {
         std::cout << '\n';
-        for (std::size_t j = 0; j < C; j++) {
+        for (std::size_t j = 0; j < C; ++j) {
             std::cout << a(i, j) << " ";
         }
         std::cout << '\n';
@@ -73,13 +73,13 @@ inline void print(const matrix<T, R, C>& a) {
 template <typename T, std::size_t R, std::size_t K, std::size_t C>
 inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
                         matrix<T, R, C>& c) {
-    for (std::size_t i = 0; i < R; i++) {
+    for (std::size_t i = 0; i < R; ++i) {
         const auto ai = a[i];  // obtain row i of a
         auto ci = c[i];        // obtain row i of c
-        for (std::size_t k = 0; k < K; k++) {
+        for (std::size_t k = 0; k < K; ++k) {
             const auto bk = b[k];    // obtain row k of b
             const auto aik = ai[k];  // obtain raw data - cir. mul. indices
-            for (std::size_t j = 0; j < C; j++) {
+            for (std::size_t j = 0; j < C; ++j) {
                 ci[j] += aik * bk[j];
             }
         }
