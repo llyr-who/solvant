@@ -29,6 +29,7 @@ private:
     std::array<T, N * B> m_data;
 
 public:
+    banded_matrix() : m_data({}){};
     banded_matrix(std::array<T, B>&& diagonal_constants);
     virtual ~banded_matrix(){};
 
@@ -87,16 +88,24 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
     }
 }
 
-//! needs to be optimised
+//! The theoretical optimal is the band of the output matrix
+//! multiplied by N. approximately. There are slightly more
+//! complicated algorithms that acheive this by storing
+//! the banded matrix a little differently to how I have.
+//! maybe this will be part of a blog post in future.
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
                  banded_matrix<T, N, 2 * ((B1 >> 1) + (B2 >> 1)) + 1>& C) {
-    for (std::size_t i = 0; i < N; i++) {
-        for (std::size_t k = 0; k < N; k++) {
-            const auto aik = A(i,k);
-            // CHANGE THE BOUNDS!!!!!!!!!!
-            for (std::size_t j = 0; j < N; j++) {
+    // obtain floor(B/2);
+    std::size_t C_band_div_2 = (2 * ((B1 >> 1) + (B2 >> 1)) + 1) >> 1;
+    for (std::size_t i = 0; i < N; ++i) {
+        // obtain bounds for updating C
+        std::size_t b_begin = i > C_band_div_2 ? i - C_band_div_2 : 0;
+        std::size_t b_end = i > N - 1 - C_band_div_2 ? N : i + C_band_div_2;
+        for (std::size_t k = b_begin; k < b_end; ++k) {
+            const auto aik = A(i, k);
+            for (std::size_t j = b_begin; j < b_end; ++j) {
                 C(i, j) += aik * B(k, j);
             }
         }
