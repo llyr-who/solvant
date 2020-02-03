@@ -18,18 +18,14 @@
 namespace solvant {
 namespace base {
 
-template <std::size_t B>
-constexpr bool out_of_bounds(const std::size_t& i, const std::size_t& j) {
-    return i < j ? j - i < (B >> 1) : i - j < (B >> 1);
-}
-
 template <typename T, std::size_t N, std::size_t B>
 class banded_matrix {
-private:
-    std::array<T, N * B> m_data;
-
 public:
-    banded_matrix() : m_data({}){};
+    constexpr bool in_band(const std::size_t& i, const std::size_t& j) const {
+        return i < j ? j - i <= (B >> 1) : i - j <= (B >> 1);
+    }
+
+    banded_matrix(){};
     banded_matrix(std::array<T, B>&& diagonal_constants);
     virtual ~banded_matrix(){};
 
@@ -49,7 +45,7 @@ public:
         if (i >= N || j >= N || i < 0 || j < 0) {
             throw std::out_of_range("index out of bounds");
         }
-        if (out_of_bounds<B>(i, j)) {
+        if (in_band(i, j)) {
             return 0;
         }
         return (*this)(i, j);
@@ -58,7 +54,7 @@ public:
         if (i >= N || j >= N || i < 0 || j < 0) {
             throw std::out_of_range("index out of bounds");
         }
-        if (out_of_bounds<B>(i, j)) {
+        if (in_band(i, j)) {
             (*this)(i, j) = val;
         }
     }
@@ -68,22 +64,27 @@ public:
 
     //! standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const {
-        return out_of_bounds<B>(i, j) ? m_data[i * B + (B >> 1) + (i - j)] : 0;
+        return in_band(i, j) ? m_data[i * B + (B >> 1) + (i - j)] : 0;
     }
 
+    // this is not safe to use.
     T& operator()(const std::size_t i, const std::size_t j) {
         return m_data[i * B + (B >> 1) + (i - j)];
     }
 
     //! obtain raw row data
     T* operator[](const std::size_t row) { return &m_data[row * B]; }
+
+private:
+    std::array<T, N* B> m_data = {};
+
 };  // namespace base
 
 template <typename T, std::size_t N, std::size_t B>
 banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
     for (std::size_t j = 0; j < N; ++j) {
         for (std::size_t i = 0; i < B; ++i) {
-            m_data[j * B + i] = diagonal_constants[i];
+            m_data[j * B + i] = diagonal_constants[B - i - 1];
         }
     }
 }
@@ -93,6 +94,10 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
 //! complicated algorithms that acheive this by storing
 //! the banded matrix a little differently to how I have.
 //! maybe this will be part of a blog post in future.
+//!
+//! Another task is to decrease the usage of the "(i,j)" operator
+//! as repeated calls to this will invoke muliplications that 
+//! "might" not be necc.
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
                  const banded_matrix<T, N, B2>& B,
