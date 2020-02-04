@@ -24,6 +24,8 @@ TEST(banded_matrix, idx_map) {
         for (std::size_t j = 0; j < 7; ++j) {
             if (std::abs(long(i - j)) <= 2) {
                 std::cout << i << " " << j << " " << b.idx_map(i,j) << std::endl;
+                std::cout << b(i,j) << std::endl;
+                std::cout << "maximum " << 5*7 << std::endl;
             }
         }
     }
