@@ -39,13 +39,14 @@ TEST(banded_matrix, identity_matrix_multiplication) {
 
     matrix_prod(id, b, c);
 
-    for (int i = 0; i < 7; ++i) {
-        for (int j = 0; j < 7; ++j) {
+    for (std::size_t i = 0; i < 7; ++i) {
+        for (std::size_t j = 0; j < 7; ++j) {
             // obtaining references via (i,j) is naughty! 
             // so just continue 
-            if(std::abs(i-j) > 1) continue;
+            if(std::abs(long(i-j)) > 1) continue;
             ASSERT_EQ(c(i,j), 1);
         }
     }
+    
 }
 
