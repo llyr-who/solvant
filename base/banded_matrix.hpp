@@ -14,6 +14,8 @@
 //! [0 0 0 2 1 2]
 //! [0 0 0 0 2 1]
 //! = [x 1 2 2 1 2 2 1 2 ... 2 1 2 2 1 x]
+//
+// TODO : maybe this may have been a bad idea?!
 #include <array>
 namespace solvant {
 namespace base {
@@ -116,6 +118,7 @@ void matrix_prod(const banded_matrix<T, N, B1>& A,
         }
     }
 }
+
 }  // namespace base
 }  // namespace solvant
 #endif
