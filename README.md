@@ -3,3 +3,5 @@
 This is very much an experimental matrix library!
 
 Just open an issue if you would like to collaborate. (:
+
+TODO: Banded matrix multiplication is failing (Exception) its test on github pipeline but NOT on local machines (both MacOS and linux)
