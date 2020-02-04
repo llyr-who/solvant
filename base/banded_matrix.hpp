@@ -17,6 +17,7 @@
 //
 // TODO : maybe this may have been a bad idea?!
 #include <array>
+#include <iostream>
 namespace solvant {
 namespace base {
 
@@ -25,6 +26,10 @@ class banded_matrix {
 public:
     constexpr bool in_band(const std::size_t& i, const std::size_t& j) const {
         return i < j ? j - i <= (B >> 1) : i - j <= (B >> 1);
+    }
+    
+    constexpr std::size_t idx_map(const std::size_t& i, const std::size_t& j) const {
+        return i * B + (B >> 1) + (j - i);
     }
 
     banded_matrix(){};
@@ -66,12 +71,12 @@ public:
 
     //! standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const {
-        return in_band(i, j) ? m_data[i * B + (B >> 1) + (i - j)] : 0;
+        return in_band(i, j) ? m_data[idx_map(i,j)] : 0;
     }
 
     // this is not safe to use.
     T& operator()(const std::size_t i, const std::size_t j) {
-        return m_data[i * B + (B >> 1) + (i - j)];
+        return m_data[idx_map(i,j)];
     }
 
     //! obtain raw row data
@@ -86,7 +91,7 @@ template <typename T, std::size_t N, std::size_t B>
 banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
     for (std::size_t j = 0; j < N; ++j) {
         for (std::size_t i = 0; i < B; ++i) {
-            m_data[j * B + i] = diagonal_constants[B - i - 1];
+            m_data[j * B + i] = diagonal_constants[i];
         }
     }
 }

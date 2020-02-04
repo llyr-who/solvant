@@ -18,6 +18,17 @@ TEST(banded_matrix, in_band) {
     ASSERT_TRUE(a.in_band(1, 1));
 }
 
+TEST(banded_matrix, idx_map) {
+    quinband<7> b;
+    for (std::size_t i = 0; i < 7; ++i) {
+        for (std::size_t j = 0; j < 7; ++j) {
+            if (std::abs(long(i - j)) <= 2) {
+                std::cout << i << " " << j << " " << b.idx_map(i,j) << std::endl;
+            }
+        }
+    }
+}
+
 TEST(banded_matrix, diagonal_constant_init) {
     triband<5> a({1, 2, 3});
     ASSERT_EQ(a(0, 0), 2);
@@ -41,12 +52,13 @@ TEST(banded_matrix, identity_matrix_multiplication) {
 
     for (std::size_t i = 0; i < 7; ++i) {
         for (std::size_t j = 0; j < 7; ++j) {
-            // obtaining references via (i,j) is naughty! 
-            // so just continue 
-            if(std::abs(long(i-j)) > 1) continue;
-            ASSERT_EQ(c(i,j), 1);
+            if (std::abs(long(i - j)) > 2) continue;
+            if (std::abs(long(i - j)) > 1) {
+                ASSERT_EQ(c(i, j), 0);
+            } else {
+                ASSERT_EQ(c(i, j), 1);
+            }
         }
     }
-    
 }
 
