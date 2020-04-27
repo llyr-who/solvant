@@ -2,14 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_CXX_STANDARD 17)
 project(solvant)
 
-# include all of our source files
-# when we move away from using .hpp files
-# only we can generate libraries instead
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..) 
+include_directories(solvant) 
+
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "-Wall -mavx -mfma -Ofast")
 
-add_executable(solvant driver/main.cpp)
+enable_testing()
 
 include(cmake/googletest.cmake)
 fetch_googletest(
@@ -17,8 +15,6 @@ fetch_googletest(
     ${PROJECT_BINARY_DIR}/googletest
     )
 
-enable_testing()
-add_subdirectory(tests)
-
+add_subdirectory(solvant)
 add_subdirectory(docs)
 

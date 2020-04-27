@@ -1,11 +1,10 @@
 #ifndef THOMASSOLV
 #define THOMASSOLV
-#include "solvant/base/tridiagonal_matrix.hpp"
+#include "core/tridiagonal_matrix.hpp"
 namespace solvant {
-namespace solver {
 template <typename T, std::size_t N>
 void thomas(const std::array<T, N>& rhs,
-            const solvant::base::tridiagonal_matrix<T, N>& m,
+            const solvant::tridiagonal_matrix<T, N>& m,
             std::array<T, N>& x) {
     // strip the matrix into bands
     std::array<T, N - 1> a, c;
@@ -34,6 +33,5 @@ void thomas(const std::array<T, N>& rhs,
         x[i] = (d[i] - c[i] * x[i + 1]) / b[i];
     }
 }
-}  // namespace solver
 }  // namespace solvant
 #endif

@@ -1,34 +1,23 @@
 #ifndef BANDMATDEF
 #define BANDMATDEF
-//! This class defines a SYMETRIC banded matrix. So we are only interested
-//! in banded matrices that have equal upper and lower bandwidth. That is,
-//! the value of B is equal to the upper bandwidth plus the lower bandwidth
-//! plus 1. e.g for a tridiagonal matrix B = 3.
-//! We don't find any use for having seperate upper and lower band matrices.
-//!
-//! Banded matrices are stored in row major order. For example the matrix
-//! [1 2 0 0 0 0]
-//! [2 1 2 0 0 0]
-//! [0 2 1 2 0 0]
-//! [0 0 2 1 2 0]
-//! [0 0 0 2 1 2]
-//! [0 0 0 0 2 1]
-//! = [x 1 2 2 1 2 2 1 2 ... 2 1 2 2 1 x]
-//
-// TODO : maybe this may have been a bad idea?!
+
 #include <array>
 #include <iostream>
 namespace solvant {
-namespace base {
 
+/*! This class defines a banded matrix which have equal upper and lower
+ * bandwidth. the value of B is equal to the upper bandwidth plus the lower
+ * bandwidth
+ */
 template <typename T, std::size_t N, std::size_t B>
 class banded_matrix {
 public:
     constexpr bool in_band(const std::size_t& i, const std::size_t& j) const {
         return i < j ? j - i <= (B >> 1) : i - j <= (B >> 1);
     }
-    
-    constexpr std::size_t idx_map(const std::size_t& i, const std::size_t& j) const {
+
+    constexpr std::size_t idx_map(const std::size_t& i,
+                                  const std::size_t& j) const {
         return i * B + (B >> 1) + (j - i);
     }
 
@@ -36,7 +25,6 @@ public:
     banded_matrix(std::array<T, B>&& diagonal_constants);
     virtual ~banded_matrix(){};
 
-    // move assignment operator
     banded_matrix& operator=(banded_matrix&& other) noexcept {
         if (this != &other) {
             m_data = std::move(other.m_data);
@@ -71,12 +59,12 @@ public:
 
     //! standard (i,j) access
     T operator()(const std::size_t i, const std::size_t j) const {
-        return in_band(i, j) ? m_data[idx_map(i,j)] : 0;
+        return in_band(i, j) ? m_data[idx_map(i, j)] : 0;
     }
 
     // this is not safe to use.
     T& operator()(const std::size_t i, const std::size_t j) {
-        return m_data[idx_map(i,j)];
+        return m_data[idx_map(i, j)];
     }
 
     //! obtain raw row data
@@ -103,7 +91,7 @@ banded_matrix<T, N, B>::banded_matrix(std::array<T, B>&& diagonal_constants) {
 //! maybe this will be part of a blog post in future.
 //!
 //! Another task is to decrease the usage of the "(i,j)" operator
-//! as repeated calls to this will invoke muliplications that 
+//! as repeated calls to this will invoke muliplications that
 //! "might" not be necc.
 template <typename T, std::size_t N, std::size_t B1, std::size_t B2>
 void matrix_prod(const banded_matrix<T, N, B1>& A,
@@ -124,6 +112,5 @@ void matrix_prod(const banded_matrix<T, N, B1>& A,
     }
 }
 
-}  // namespace base
 }  // namespace solvant
 #endif
