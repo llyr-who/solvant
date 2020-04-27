@@ -1,7 +1,7 @@
 #include "solvant/core/matrix.hpp"
 #include "gtest/gtest.h"
 
-using matrix3x3d  = solvant::base::matrix<double,3,3>;
+using matrix3x3d  = solvant::matrix<double,3,3>;
 
 TEST(matrix, matrix_square) {
     matrix3x3d a = {1.0,2.0,3.0,
@@ -15,7 +15,7 @@ TEST(matrix, matrix_square) {
                     66.0,81.0,96.0,
                     102.0,126.0,150.0};
 
-    solvant::base::matrix_prod(a,a,c);
+    solvant::matrix_prod(a,a,c);
     
     ASSERT_TRUE(d==c);
 }
@@ -37,7 +37,7 @@ TEST(matrix, matrix_multiplication1) {
                     8.0,10.0,12.0,
                     14.0,16.0,18.0};
 
-    solvant::base::matrix_prod(a,b,c);
+    solvant::matrix_prod(a,b,c);
     
     ASSERT_TRUE(d==c);
 }

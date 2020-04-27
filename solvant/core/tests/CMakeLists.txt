@@ -13,12 +13,7 @@ target_link_libraries(banded_test
                       gtest_main
 )
 
-add_executable(thomas_test thomas_test.cpp)
-target_link_libraries(thomas_test
-                      gtest_main
-)
 
 add_test(NAME matrix_test COMMAND matrix_test)
 add_test(NAME DOK_test COMMAND DOK_test)
 add_test(NAME banded_test COMMAND banded_test)
-add_test(NAME thomas_test COMMAND thomas_test)

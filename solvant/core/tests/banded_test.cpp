@@ -2,16 +2,16 @@
 #include "solvant/core/banded_matrix.hpp"
 
 template <std::size_t N>
-using triband = solvant::base::banded_matrix<double, N, 3>;
+using triband = solvant::banded_matrix<double, N, 3>;
 
 template <std::size_t N>
-using quinband = solvant::base::banded_matrix<double, N, 5>;
+using quinband = solvant::banded_matrix<double, N, 5>;
 
 template <std::size_t N>
-using septband = solvant::base::banded_matrix<double, N, 7>;
+using septband = solvant::banded_matrix<double, N, 7>;
 
 template <std::size_t N>
-using thirtband = solvant::base::banded_matrix<double, N, 13>;
+using thirtband = solvant::banded_matrix<double, N, 13>;
 
 TEST(banded_matrix, in_band) {
     quinband<10> a;

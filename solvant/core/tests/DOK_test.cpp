@@ -1,7 +1,7 @@
 #include "solvant/core/DOK_matrix.hpp"
 #include "gtest/gtest.h"
 
-using DOK_matrix  = solvant::sparse::DOK_matrix<double>;
+using DOK_matrix  = solvant::DOK_matrix<double>;
 
 TEST(matrix, matrix_square) {
     DOK_matrix a;
