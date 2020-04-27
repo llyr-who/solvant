@@ -3,11 +3,13 @@
 To build
 `cmake -H. -Bbuild && make -C build`
 
+To test
+`cd build && make test`
+
 To generate documentation, make sure doxygen is installed. More specifically the packages, `doxygen`, `doxygen-gui` and
 `graph-viz`.
 
-Once these packages are installed
-`cd build && make docs`
-will generate a `index.html` inside `build/docs`
+Once these packages are installed you can run
+`cd build && make docs && google-chrome docs/html/index.html`
 
 
