@@ -1,4 +1,4 @@
-#include "solvant/core/banded_matrix.hpp"
+#include "core/banded_matrix.hpp"
 
 namespace solvant {
 template <typename T, size_t sz>

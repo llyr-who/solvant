@@ -1,5 +1,5 @@
-#include "solvant/algo/thomas.hpp"
-#include "solvant/core/tridiagonal_matrix.hpp"
+#include "algo/thomas.hpp"
+#include "core/tridiagonal_matrix.hpp"
 
 #include "gtest/gtest.h"
 

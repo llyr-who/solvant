@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "solvant/core/banded_matrix.hpp"
+#include "core/banded_matrix.hpp"
 
 template <std::size_t N>
 using triband = solvant::banded_matrix<double, N, 3>;
