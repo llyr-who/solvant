@@ -9,8 +9,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "-Wall -mavx -mfma -Ofast")
 
-add_executable(solvant driver/main.cpp)
-
 include(cmake/googletest.cmake)
 fetch_googletest(
     ${PROJECT_SOURCE_DIR}/cmake
