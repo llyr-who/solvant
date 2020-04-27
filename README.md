@@ -16,22 +16,5 @@ Once these packages are installed you can run
 `cd build && make docs && google-chrome docs/html/index.html`
 
 
-Basic usage would be as follows
+For basic usage see `examples`.
 
-```cpp
-// After importing using cmake (fetch_content etc)
-#include "solvant/core/matrix.hpp"
-
-int main() {
-    using matrix3x3 = solvant::matrix<float, 2, 2>;
-    
-    matrix3x3 A = {1,2,3,4};
-    matrix3x3 B = ...;
-    matrix3x3 C; // answer;
-    
-    solvant::matrix_prod(A, B, C);
-}
-
-```
-
-For a full list of features see the docs.
