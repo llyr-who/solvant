@@ -25,7 +25,7 @@ Basic usage would be as follows
 int main() {
     using matrix3x3 = solvant::matrix<float, 2, 2>;
     
-    matrix3x3 A = {1,2,3,4,5,6,7,8,9};
+    matrix3x3 A = {1,2,3,4};
     matrix3x3 B = ...;
     matrix3x3 C; // answer;
     
