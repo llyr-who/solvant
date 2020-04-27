@@ -11,5 +11,3 @@ To generate documentation, make sure doxygen is installed. More specifically the
 
 Once these packages are installed you can run
 `cd build && make docs && google-chrome docs/html/index.html`
-
-
