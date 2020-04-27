@@ -1,7 +1,6 @@
 #include <array>
 #include <map>
 namespace solvant {
-namespace sparse {
 //! This sparse structure is great for incremental creation
 //! of a sparse matrix, but aweful for calculations.
 //! DOK = Dictionary Of Keys.
@@ -20,5 +19,4 @@ private:
     // specified hash does not meet the requirements
     std::map<index_pair, T> m_data;
 };
-}  // namespace base
 }  // namespace solvant

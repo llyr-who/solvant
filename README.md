@@ -1,7 +1,13 @@
 # solvant [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d33593faf7ee4367a5fc0909531dfb31)](https://app.codacy.com/manual/llyr-who/solvant?utm_source=github.com&utm_medium=referral&utm_content=llyr-who/solvant&utm_campaign=Badge_Grade_Dashboard)
 
-This is very much an experimental matrix library!
+To build
+`cmake -H. -Bbuild && make -C build`
 
-Just open an issue if you would like to collaborate. (:
+To generate documentation, make sure doxygen is installed. More specifically the packages, `doxygen`, `doxygen-gui` and
+`graph-viz`.
 
-TODO: Banded matrix multiplication is failing (Exception) its test on github pipeline but NOT on local machines (both MacOS and linux)
+Once these packages are installed
+`cd build && make docs`
+will generate a `index.html` inside `build/docs`
+
+

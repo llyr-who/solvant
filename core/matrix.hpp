@@ -7,8 +7,6 @@
 #include <type_traits>
 #include <utility>
 namespace solvant {
-namespace base {
-
 /**
  * Matrix class
  */
@@ -85,7 +83,5 @@ inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
         }
     }
 }
-
-}  // namespace base
 }  // namespace solvant
 #endif

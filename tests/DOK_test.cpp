@@ -1,4 +1,4 @@
-#include "solvant/base/DOK_matrix.hpp"
+#include "solvant/core/DOK_matrix.hpp"
 #include "gtest/gtest.h"
 
 using DOK_matrix  = solvant::sparse::DOK_matrix<double>;

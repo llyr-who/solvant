@@ -18,8 +18,8 @@ set(DOXYGEN_HIDE_UNDOC_RELATIONS NO)
 set(DOXYGEN_EXCLUDE_PATTERNS "*/tests/*")
 
 doxygen_add_docs(docs
-  base
-  solver
+  core
+  algo
   utils
   tests
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}

@@ -1,7 +1,6 @@
 #ifndef BANDMATDEF
 #define BANDMATDEF
-//! This class defines a SYMETRIC banded matrix. So we are only interested
-//! in banded matrices that have equal upper and lower bandwidth. That is,
+//! This class defines a banded matrix which have equal upper and lower bandwidth.
 //! the value of B is equal to the upper bandwidth plus the lower bandwidth
 //! plus 1. e.g for a tridiagonal matrix B = 3.
 //! We don't find any use for having seperate upper and lower band matrices.
@@ -19,8 +18,6 @@
 #include <array>
 #include <iostream>
 namespace solvant {
-namespace base {
-
 template <typename T, std::size_t N, std::size_t B>
 class banded_matrix {
 public:
@@ -124,6 +121,5 @@ void matrix_prod(const banded_matrix<T, N, B1>& A,
     }
 }
 
-}  // namespace base
 }  // namespace solvant
 #endif

@@ -1,7 +1,7 @@
-#include "solvant/solver/thomas.hpp"
+#include "solvant/algo/thomas.hpp"
+#include "solvant/core/tridiagonal_matrix.hpp"
 
 #include "gtest/gtest.h"
-#include "solvant/base/tridiagonal_matrix.hpp"
 
 template <std::size_t N>
 using tridiag = solvant::base::tridiagonal_matrix<double, N>;

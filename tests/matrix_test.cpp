@@ -1,4 +1,4 @@
-#include "solvant/base/matrix.hpp"
+#include "solvant/core/matrix.hpp"
 #include "gtest/gtest.h"
 
 using matrix3x3d  = solvant::base::matrix<double,3,3>;
