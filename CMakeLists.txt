@@ -16,5 +16,6 @@ fetch_googletest(
     )
 
 add_subdirectory(solvant)
+add_subdirectory(examples)
 add_subdirectory(docs)
 
