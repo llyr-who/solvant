@@ -17,4 +17,4 @@ clean:
 	rm -rf ${BUILDDIR}
 
 ${BUILDDIR}/Makefile:
-	cmake -S . -B ${BUILDDIR} ${CMAKE_ARGS}
+	cmake -S . -B${BUILDDIR} ${CMAKE_ARGS}
