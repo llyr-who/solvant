@@ -1,11 +1,12 @@
-#ifndef MATRIXDEF
-#define MATRIXDEF
+#pragma once
+
 #include <array>
 #include <cmath>
 #include <iostream>
 #include <memory>
 #include <type_traits>
 #include <utility>
+
 namespace solvant {
 /**
  * Matrix class
@@ -84,4 +85,3 @@ inline void matrix_prod(const matrix<T, R, K>& a, const matrix<T, K, C>& b,
     }
 }
 }  // namespace solvant
-#endif

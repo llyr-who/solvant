@@ -3,6 +3,8 @@
 int main() {
     using matrix3x3 = solvant::matrix<double, 2, 2>;
 
+    // First row : 1 , 2
+    // Second row : 3 , 4
     matrix3x3 A = {1.0, 2.0, 3.0, 4.0};
     matrix3x3 B = {1.0, 2.0, 3.0, 4.0};
     matrix3x3 C;  // answer;
