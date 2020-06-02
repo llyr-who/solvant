@@ -1,6 +1,9 @@
-add_executable(thomas_test thomas_test.cpp)
-target_link_libraries(thomas_test
-                      gtest_main
+set(_tests
+  thomas_test
 )
 
-add_test(NAME thomas_test COMMAND thomas_test)
+foreach(_test IN LISTS _tests)
+  add_executable(${_test} ${_test}.cpp)
+  target_link_libraries(${_test} gtest_main)
+  add_test(NAME ${_test} COMMAND ${_test})
+endforeach()

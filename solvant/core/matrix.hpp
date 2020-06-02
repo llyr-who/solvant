@@ -8,17 +8,10 @@
 #include <utility>
 
 namespace solvant {
-/**
- * Matrix class
- */
 template <typename T, std::size_t R, std::size_t C>
 class matrix {
-private:
-    // Initialises all elements to zero
-    std::array<T, R* C> m_data = {};
-
 public:
-    constexpr matrix(){};
+    constexpr matrix() : m_data({}){};
 
     //! matrix a = {1,2,3,...}
     template <typename... Ts,
@@ -26,9 +19,8 @@ public:
                   std::conjunction<std::is_same<T, Ts>...>::value &&
                       (sizeof...(Ts) == R * C),
                   int>::type = 0>
-    constexpr matrix(Ts&&... elements) noexcept {
-        m_data = std::array<T, R * C>{std::forward<Ts>(elements)...};
-    }
+    constexpr matrix(Ts&&... elements) noexcept
+        : m_data({std::forward<Ts>(elements)...}) {}
 
     ~matrix(){};
 
@@ -53,6 +45,10 @@ public:
     const bool operator==(const matrix<T, R, C>& m) {
         return m_data == m.m_data;
     }
+
+private:
+    // Initialises all elements to zero
+    std::array<T, R * C> m_data;
 };
 
 template <typename T, std::size_t R, std::size_t C>
