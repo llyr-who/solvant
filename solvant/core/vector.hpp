@@ -30,6 +30,10 @@ public:
         m_data = std::array<T, N>{std::forward<Ts>(elements)...};
     }
 
+    template<typename... Ts>
+    constexpr vector(Ts... ts) : m_data{ts...} {}
+
+
     ~vector(){};
 
     std::size_t size() const { return N; }

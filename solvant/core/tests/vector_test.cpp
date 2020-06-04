@@ -4,6 +4,10 @@
 template <std::size_t N>
 using vector = solvant::vector<double, N>;
 
+TEST(vector, ctr) {
+    auto a = vector<3>{1.0,2.0,3.0};
+}
+
 TEST(vector, dot) {
     vector<4> a = {1.0, 2.0, 3.0, 4.0};
     vector<4> b = {1.0, 2.0, 3.0, 4.0};
