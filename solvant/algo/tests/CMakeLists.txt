@@ -1,5 +1,6 @@
 set(_tests
   thomas_test
+  ge_test
 )
 
 foreach(_test IN LISTS _tests)

@@ -61,6 +61,15 @@ public:
         return r;
     }
 
+    void interchangeRows(const int i, const int j, const int I, const int J) {
+        double temp[R];
+        for (int k = I; k < J; k++) {
+            temp[k] = m_data[k * R + i];
+            m_data[k * R + i] = m_data[k * R + j];
+            m_data[k * R + j] = temp[k];
+        }
+    }
+
 private:
     // Initialises all elements to zero
     std::array<T, R * C> m_data;
