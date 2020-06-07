@@ -7,38 +7,34 @@
 namespace solvant {
 
 template <typename T, size_t N>
-std::unique_ptr<matrix<T, N, N>> identity() {
-    matrix<T, N, N> I; 
-    for(int i = 0; i < N; i++){
-        I[i][i] = 1;
+matrix<T, N, N> identity() {
+    matrix<T, N, N> I;
+    for (int i = 0; i < N; ++i) {
+        I[i][i] = 1.0;
     }
-    return std::make_unique<matrix<T,N,N>>(I);
+    return I;
 }
 
 template <typename T, std::size_t N>
 void ge(const solvant::vector<T, N>& rhs, const solvant::matrix<T, N, N>& m,
         solvant::vector<T, N>& x) {
-    // Call Guassian Elimination (return LU)
-
-    // This will solve the matrix using guasian ellimination with partial
-    // pivoting
-    matrix U = m;
-    matrix L = *identity<T,N>();
-    matrix P = *identity<T,N>();
+    auto U = m;
+    auto L = identity<T, N>();
+    auto P = identity<T, N>();
 
     for (int k = 0; k < N - 1; k++) {
         // select i to max u{ik}
         int i = 0;
-        double max = 0;
+        T max = 0;
         for (int l = 0; l < N; l++) {
             if (U(l, k) > max) {
                 i = l;
                 max = U(l, k);
             }
         }
-        U.interchangeRows(i, k, k, N);
-        L.interchangeRows(k, i, 0, k - 1);
-        P.interchangeRows(i, k, 0, N);
+        U.interchange_rows(i, k);
+        L.interchange_rows(i, k);
+        P.interchange_rows(i, k);
         for (int j = k + 1; j < N; j++) {
             L(j, k) = U(j, k) / U(k, k);
             for (int s = k; s < N; s++) {
@@ -47,27 +43,41 @@ void ge(const solvant::vector<T, N>& rhs, const solvant::matrix<T, N, N>& m,
         }
     }
 
-    vector bb = P * rhs;
+    solvant::print(U);
+    solvant::print(L);
+    solvant::print(P);
+    auto bb = P * rhs;
     vector<T, N> y;
 
     // Call forward substitution (returns vector) to solve "Ly=bb"
-    y[0] = bb[0] / *L[0, 0];
+    forward_substitute(bb, L, y);
+    // Call backward substitution Ux = y
+    backward_substitute(y, U, x);
+}
+
+template <typename T, std::size_t N>
+void forward_substitute(const vector<T, N>& bb, const matrix<T, N, N>& L,
+                        vector<T, N>& y) {
+    y[0] = bb[0] / L(0, 0);
     for (int j = 1; j < N; j++) {
         double SUM = 0;
         for (int k = 0; k < j; k++) {
-            SUM += y[k] * *L[j, k];
+            SUM += y[k] * L(j, k);
         }
-        y[j] = (bb[j] - SUM) / *L[j, j];
+        y[j] = (bb[j] - SUM) / L(j, j);
     }
+}
 
-    // Call backward substitution Ux = y
-    x[N - 1] = y[N - 1] / *U[N - 1, N - 1];
+template <typename T, std::size_t N>
+void backward_substitute(const vector<T, N>& y, const matrix<T, N, N>& U,
+                         vector<T, N>& x) {
+    x[N - 1] = y[N - 1] / U(N - 1, N - 1);
     for (int j = N - 1; j > -1; j--) {
         double SUM = 0;
         for (int k = j + 1; k < N; k++) {
-            SUM += x[k] * *U[j, k];
+            SUM += x[k] * U(j, k);
         }
-        x[j] = (y[j] - SUM) / *U[j, j];
+        x[j] = (y[j] - SUM) / U(j, j);
     }
 }
 
