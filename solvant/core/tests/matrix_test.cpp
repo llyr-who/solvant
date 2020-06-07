@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 
 using matrix3x3d = solvant::matrix<double, 3, 3>;
+using vector3 = solvant::vector<double, 3>;
 
 TEST(matrix, matrix_square) {
     matrix3x3d a = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0};
@@ -30,3 +31,17 @@ TEST(matrix, matrix_multiplication1) {
 
     ASSERT_TRUE(d == c);
 }
+
+TEST(matrix, matrix_vector_mult) {
+    matrix3x3d a = {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0};
+
+    vector3 b = {1.0, 1.0, 1.0};
+
+    // expected result
+    vector3 d = {2.0, 2.0, 2.0};
+
+    auto c = a*b;
+
+    ASSERT_TRUE(d == c);
+}
+

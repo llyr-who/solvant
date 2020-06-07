@@ -7,6 +7,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "core/vector.hpp"
+
 namespace solvant {
 template <typename T, std::size_t R, std::size_t C>
 class matrix {
@@ -44,6 +46,19 @@ public:
 
     const bool operator==(const matrix<T, R, C>& m) {
         return m_data == m.m_data;
+    }
+
+    vector<T, R> operator*(const vector<T, C>& v) {
+        vector<T, R> r;
+        for (std::size_t i = 0; i < R; ++i) {
+            auto mi = (*this)[i];
+            double ri = 0;
+            for (std::size_t j = 0; j < C; ++j) {
+                ri += mi[j] * v[j];
+            }
+            r[i] = ri;
+        }
+        return r;
     }
 
 private:
