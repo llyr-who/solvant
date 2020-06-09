@@ -16,25 +16,28 @@ matrix<T, N, N> identity() {
 }
 
 template <typename T, std::size_t N>
+void pivot(solvant::matrix<T, N, N>& U, solvant::matrix<T, N, N>& P,
+           const std::size_t& k) {
+    int i = 0;
+    T max = 0;
+    for (int l = k; l < N; l++) {
+        if (U(l, k) > max) {
+            i = l;
+            max = U(l, k);
+        }
+    }
+    U.interchange_rows(i, k);
+    P.interchange_rows(i, k);
+}
+
+template <typename T, std::size_t N>
 void ge(const solvant::vector<T, N>& rhs, const solvant::matrix<T, N, N>& m,
         solvant::vector<T, N>& x) {
     auto U = m;
     auto L = identity<T, N>();
     auto P = identity<T, N>();
-
     for (int k = 0; k < N - 1; k++) {
-        // select i to max u{ik}
-        int i = 0;
-        T max = 0;
-        for (int l = 0; l < N; l++) {
-            if (U(l, k) > max) {
-                i = l;
-                max = U(l, k);
-            }
-        }
-        U.interchange_rows(i, k);
-        L.interchange_rows(i, k);
-        P.interchange_rows(i, k);
+        if (U(k, k) == 0) pivot(U, P, k);
         for (int j = k + 1; j < N; j++) {
             L(j, k) = U(j, k) / U(k, k);
             for (int s = k; s < N; s++) {
@@ -43,9 +46,6 @@ void ge(const solvant::vector<T, N>& rhs, const solvant::matrix<T, N, N>& m,
         }
     }
 
-    solvant::print(U);
-    solvant::print(L);
-    solvant::print(P);
     auto bb = P * rhs;
     vector<T, N> y;
 
