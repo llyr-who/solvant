@@ -14,4 +14,3 @@ TEST(thomas, basic_solv) {
     solvant::thomas(rhs, I, x);
     ASSERT_TRUE(rhs == x);
 }
-

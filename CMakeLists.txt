@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS "-Wall -mavx -mfma -Ofast")
 enable_testing()
 
 include(cmake/FetchContent_Googletest.cmake)
+include(cmake/FetchContent_Googlebenchmark.cmake)
 
 add_subdirectory(solvant)
 add_subdirectory(examples)

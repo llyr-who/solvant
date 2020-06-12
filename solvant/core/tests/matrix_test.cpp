@@ -34,14 +34,24 @@ TEST(matrix, matrix_multiplication1) {
 
 TEST(matrix, matrix_vector_mult) {
     matrix3x3d a = {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0};
-
     vector3 b = {1.0, 1.0, 1.0};
-
     // expected result
     vector3 d = {2.0, 2.0, 2.0};
-
     auto c = a*b;
-
     ASSERT_TRUE(d == c);
+
+    matrix3x3d A = {2.0, 1.0, 1.0, 0.0, 2.0, 0.0, -1.0, -1.0, 2.0};
+    vector3 x = {1.0, 1.0, 2.0};
+    // expected result
+    vector3 y = {5.0, 2.0, 2.0};
+    auto z = A*x;
+    ASSERT_TRUE(z == y);
+}
+
+TEST(matrix, interchange_rows) {
+    matrix3x3d a = {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0};
+    a.interchange_rows(1,2);
+    ASSERT_EQ(a(1,2), 2.0);
+
 }
 

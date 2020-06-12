@@ -16,6 +16,7 @@ public:
     constexpr matrix() : m_data({}){};
 
     //! matrix a = {1,2,3,...}
+    //! this will generate in a matrix in ROW major form!
     template <typename... Ts,
               typename std::enable_if<
                   std::conjunction<std::is_same<T, Ts>...>::value &&
@@ -59,6 +60,15 @@ public:
             r[i] = ri;
         }
         return r;
+    }
+
+    void interchange_rows(const std::size_t i, const std::size_t j) {
+        T temp[C];
+        for (std::size_t k = 0; k < C; ++k) {
+            temp[k] = m_data[i * C + k];
+            m_data[i * C + k] = m_data[j * C + k];
+            m_data[j * C + k] = temp[k];
+        }
     }
 
 private:

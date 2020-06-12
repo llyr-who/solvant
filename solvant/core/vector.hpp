@@ -21,18 +21,8 @@ private:
 public:
     constexpr vector() : m_data({}){};
 
-    //! vector a = {1,2,3,...}
-    template <
-        typename... Ts,
-        typename std::enable_if<std::conjunction<std::is_same<T, Ts>...>::value,
-                                int>::type = 0>
-    constexpr vector(Ts&&... elements) noexcept {
-        static_assert(sizeof...(Ts) == N);
-        m_data = std::array<T, N>{std::forward<Ts>(elements)...};
-    }
-
     template <typename... Ts>
-    constexpr vector(Ts... ts) : m_data{ts...} {}
+    constexpr vector(Ts... ts) noexcept : m_data{ts...} {}
 
     ~vector(){};
 
