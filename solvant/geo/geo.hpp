@@ -7,71 +7,56 @@ namespace geo {
 
 using T = float;
 
-matrix<T, 4, 4> formViewModelMatrix(const vector<T, 4>& pos,
-                                    const vector<T, 4>& target,
-                                    const vector<T, 4>& up) {
-    vector<T, 4> mz;
+matrix<T, 4, 4> view_model_matrix(const vector<T, 3>& pos,
+                                  const vector<T, 3>& target,
+                                  const vector<T, 3>& up) {
+    // this vector points into the screen
+    vector<T, 3> mz;
     mz[0] = pos[0] - target[0];
     mz[1] = pos[1] - target[1];
     mz[2] = pos[2] - target[2];
-    mz[3] = 0.0f;
     mz.normalize();
 
-    vector<T, 4> my;
-    my[0] = up[0];
-    my[1] = up[1];
-    my[2] = up[2];
-    my[3] = 0.0f;
-
-    vector<T, 4> mx;
-    mx[0] = my[1] * mz[2] - my[2] * mz[1];
-    mx[1] = my[2] * mz[0] - my[0] * mz[2];
-    mx[2] = my[0] * mz[1] - my[1] * mz[0];
-    mx[3] = 0.0f;
+    // x axis is going to be perpendicular to both
+    // the axis looking into the screen (mz) and up
+    vector<T, 3> mx;
+    solvant::cross_product3(up, mz, mx);
     mx.normalize();
 
-    my[0] = mz[1] * mx[2] - mz[2] * mx[1];
-    my[1] = mz[2] * mx[0] - mz[0] * mx[2];
-    my[2] = mz[0] * mx[1] - mz[1] * mx[0];
-    my[3] = 0.0f;
+    // at the moment mz,mx and up are not orthogonal.
+    // Therefore we just take the cross product
+    // of mx and mz to get my!
+    vector<T, 3> my;
+    solvant::cross_product3(mz, mx, my);
 
-    vector<T, 4> t;
+    // we want the position in the new coordinate system.
+    // and we need to "kick" back, so we can see the object
+    vector<T, 3> t;
     t[0] = mx[0] * pos[0] + mx[1] * pos[1] + mx[2] * pos[2];
     t[1] = my[0] * pos[0] + my[1] * pos[1] + my[2] * pos[2];
     t[2] = -(mz[0] * pos[0] + mz[1] * pos[1] + mz[2] * pos[2]);
 
-    AV4X4FLOAT m;
-    m[0] = mx[0];
-    m[1] = my[0];
-    m[2] = mz[0];
-    m[3] = 0.0f;
-    m[4] = mx[1];
-    m[5] = my[1];
-    m[6] = mz[1];
-    m[7] = 0.0f;
-    m[8] = mx[2];
-    m[9] = my[2];
-    m[10] = mz[2];
-    m[11] = 0.0f;
-    m[12] = t[0];
-    m[13] = t[1];
-    m[14] = t[2];
-    m[15] = 1.0f;
-
+    // clang-format off
+    matrix<T, 4, 4> m = {mx[0], my[0], mz[0], 0.0f, 
+                         mx[1], my[1], mz[1], 0.0f,
+                         mx[2], my[2], mz[2], 0.0f,
+                          t[0],  t[1],  t[2],  1.0f};
+    // clang-format on
     return m;
 }
 
-AV4X4FLOAT formProjMatrix(float FOVangle, float aspect, float nearz,
-                          float farz) {
-    AV4X4FLOAT A;
-
-    A[0] = 1 / (aspect * tanf(FOVangle / 2));
-    A[5] = 1 / tanf(FOVangle / 2);
-    A[10] = (nearz + farz) / (farz - nearz);
-    A[11] = -2.0 * nearz * farz / (farz - nearz);
-    A[14] = -1.0;
+template <typename T>
+matrix<T, 4, 4> proj_matrix(T FOVangle, T aspect, T nearz, T farz) {
+    matrix<T, 4, 4> A;
+    // plenty of explainations online.
+    A(0, 0) = 1 / (aspect * tanf(FOVangle / 2));
+    A(1, 1) = 1 / tanf(FOVangle / 2);
+    A(2, 2) = (nearz + farz) / (farz - nearz);
+    A(2, 3) = -2.0 * nearz * farz / (farz - nearz);
+    A(3, 2) = -1.0;
 
     return A;
 }
+
 }  // namespace geo
 }  // namespace solvant
