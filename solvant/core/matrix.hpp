@@ -17,13 +17,8 @@ public:
 
     //! matrix a = {1,2,3,...}
     //! this will generate in a matrix in ROW major form!
-    template <typename... Ts,
-              typename std::enable_if<
-                  std::conjunction<std::is_same<T, Ts>...>::value &&
-                      (sizeof...(Ts) == R * C),
-                  int>::type = 0>
-    constexpr matrix(Ts&&... elements) noexcept
-        : m_data({std::forward<Ts>(elements)...}) {}
+    template <typename... Ts>
+    constexpr matrix(Ts... ts) noexcept : m_data{ts...} {}
 
     ~matrix(){};
 

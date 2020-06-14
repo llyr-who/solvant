@@ -14,10 +14,6 @@ namespace solvant {
  */
 template <typename T, std::size_t N>
 class vector {
-private:
-    // Initialises all elements to zero
-    std::array<T, N> m_data = {};
-
 public:
     constexpr vector() : m_data({}){};
 
@@ -41,6 +37,23 @@ public:
                        [&a](T& x) { return x * a; });
         return v;
     }
+
+    vector operator+(const vector<T, N>& v) const {
+        vector<T, N> r;
+        for (std::size_t i = 0; i < N; ++i) {
+            r.m_data[i] = v.m_data[i] + m_data[i];
+        }
+        return r;
+    }
+
+    vector operator-(const vector<T, N>& v) const {
+        vector<T, N> r;
+        for (std::size_t i = 0; i < N; ++i) {
+            r.m_data[i] = m_data[i] - v.m_data[i];
+        }
+        return r;
+    }
+
     vector& operator*=(const T& a) {
         std::for_each(m_data.begin(), m_data.end(), [&a](T& x) { x *= a; });
         return *this;
@@ -52,6 +65,10 @@ public:
         std::cout << norm << std::endl;
         (*this) *= (1.0 / norm);
     }
+
+private:
+    std::array<T, N> m_data;
+    explicit vector(std::array<T, N>&& a) : m_data(std::move(a)) {}
 };
 
 template <typename T, std::size_t N>
